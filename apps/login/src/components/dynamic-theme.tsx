@@ -26,7 +26,12 @@ function GlassScene({ branding, art, head, body }: SceneProps) {
           <div className="glass-inner">
             {branding && (
               <div className="glass-logo">
-                <Logo lightSrc={branding.lightTheme?.logoUrl} darkSrc={branding.darkTheme?.logoUrl} height={34} width={192} />
+                <Logo
+                  lightSrc={branding.lightTheme?.logoUrl}
+                  darkSrc={branding.darkTheme?.logoUrl}
+                  height={34}
+                  width={192}
+                />
               </div>
             )}
             {head && <div className="glass-head">{head}</div>}
