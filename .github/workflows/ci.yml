@@ -26,7 +26,8 @@ jobs:
     permissions:
       contents: read
     with:
-      node_version: "22"
+      # La misma que usa el Dockerfile del login (node:24-alpine) y scripts/build-login.sh.
+      node_version: "24"
 
   pack:
     uses: ./.github/workflows/pack.yml
