@@ -12,13 +12,14 @@ import { getAllowedLanguages } from "@/lib/zitadel";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { Lato } from "next/font/google";
+import { Barlow } from "next/font/google";
 import { headers } from "next/headers";
 import React, { Suspense } from "react";
 
-const lato = Lato({
-  weight: ["400", "700", "900"],
-  subsets: ["latin"],
+// Tipografía del sistema de diseño de Stackless (fe-pos y customer-engagement). El 300 es el del título.
+const barlow = Barlow({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin", "latin-ext"],
 });
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -43,7 +44,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   }
 
   return (
-    <html className={`${lato.className}`} suppressHydrationWarning>
+    <html className={`${barlow.className}`} suppressHydrationWarning>
       <head />
       <body>
         <ThemeProvider>
@@ -68,9 +69,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 <BackgroundWrapper
                   className={`bg-background-light-600 dark:bg-background-dark-600 relative flex min-h-screen flex-col justify-center`}
                 >
-                  <div className="relative mx-auto w-full max-w-[1100px] py-8">
+                  {/* Ancho completo: el layout lateral ocupa toda la pantalla; el de una columna se centra solo. */}
+                  <div className="relative w-full">
                     <div>{children}</div>
-                    <div className="mx-auto flex max-w-[440px] flex-row items-center justify-end space-x-4 px-4 py-4 md:max-w-full md:px-8">
+                    <div className="fixed right-4 bottom-4 z-20 flex flex-row items-center space-x-4 md:right-6 md:bottom-6">
                       <LanguageSwitcher languages={languages} />
                       <ThemeSwitch />
                     </div>

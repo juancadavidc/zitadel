@@ -6,6 +6,9 @@ RUN addgroup --system --gid 1001 nodejs && \
 RUN mkdir -p /.env-file && touch /.env-file/.env && chown -R nextjs:nodejs /.env-file
 
 COPY --chown=nextjs:nodejs .next/standalone ./
+# El servidor corre desde apps/login (ENTRYPOINT), y es ahí donde Next busca public/: el que trae el
+# standalone en /app/public no se sirve. Sin esto dan 404 las imágenes (arte e iconos del login).
+COPY --chown=nextjs:nodejs public ./apps/login/public
 
 USER nextjs
 ENV HOSTNAME="::" \

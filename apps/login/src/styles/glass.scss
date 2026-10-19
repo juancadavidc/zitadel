@@ -1,0 +1,257 @@
+// Tema "vidrio" del login de Stackless: fondo en degradado, tarjeta de arte que se solapa con un
+// panel de vidrio esmerilado, inputs subrayados y botones en píldora. Paleta = "Industry design
+// system" de fe-pos/customer-engagement (acero #5980a6, papel #f2f2f3, tinta #1d1f20).
+// Claro/oscuro/sistema los resuelve next-themes con la clase `dark` en <html>.
+
+.glass-scene {
+  --ink: #1d2d3d;
+  --ink-soft: #416180;
+  --glass: rgba(255, 255, 255, 0.34);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --line: #1d2d3d;
+  --btn: #1d2d3d;
+  --btn-ink: #fff;
+  --page: linear-gradient(100deg, #416180 0%, #7fa6cf 24%, #d6ebff 48%, #f3f9ff 56%, #9cc0e6 76%, #2c455d 100%);
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  overflow: hidden;
+  padding: 32px 0;
+  color: var(--ink);
+  background: var(--page);
+
+  // Halos de luz detrás del vidrio: sin ellos el desenfoque no tiene qué desenfocar.
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  &::before {
+    width: 34rem;
+    height: 34rem;
+    left: -8rem;
+    top: -10rem;
+    background: #b5d9fd;
+  }
+  &::after {
+    width: 30rem;
+    height: 30rem;
+    right: -8rem;
+    bottom: -12rem;
+    background: #5980a6;
+  }
+}
+
+html.dark .glass-scene {
+  --ink: #f2f2f3;
+  --ink-soft: #94bce3;
+  --glass: rgba(16, 26, 42, 0.5);
+  --glass-border: rgba(148, 188, 227, 0.28);
+  --line: #b5d9fd;
+  --btn: #94bce3;
+  --btn-ink: #0f1a28;
+  --page: linear-gradient(100deg, #070c14 0%, #142640 28%, #2a4768 50%, #142640 72%, #070c14 100%);
+
+  &::before {
+    background: #3b5fa8;
+    opacity: 0.4;
+  }
+  &::after {
+    background: #f08a4b;
+    opacity: 0.18;
+  }
+}
+
+.glass-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 44% 1fr;
+  align-items: stretch;
+  width: 100%;
+  max-width: 1080px;
+  padding: 0 24px;
+}
+
+// La tarjeta de arte va encima y sobresale por arriba y abajo del panel.
+.glass-art {
+  position: relative;
+  z-index: 2;
+  grid-column: 1;
+  grid-row: 1;
+  min-height: 600px;
+  border-radius: 30px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0a1220, #1d3350);
+  box-shadow:
+    0 30px 60px -20px rgba(8, 16, 30, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+
+  img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.glass-panel {
+  position: relative;
+  z-index: 1;
+  grid-column: 1 / -1;
+  grid-row: 1;
+  align-self: center;
+  min-height: 500px;
+  margin-left: 34%;
+  display: flex;
+  align-items: center;
+  padding: 48px 56px 40px calc(10% + 56px);
+  border-radius: 30px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  box-shadow: 0 30px 60px -25px rgba(8, 16, 30, 0.35);
+
+  .glass-inner {
+    width: 100%;
+  }
+  .glass-logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    img {
+      height: 34px;
+      width: auto;
+    }
+  }
+  .glass-head {
+    margin-bottom: 28px;
+    h1 {
+      font-size: 44px;
+      font-weight: 300;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+    p {
+      margin-top: 10px;
+      font-size: 15px;
+      text-align: center;
+      color: var(--ink-soft);
+    }
+  }
+
+  label {
+    color: var(--ink);
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+
+  // Inputs de texto subrayados con icono a la derecha (casillas y radios quedan como están). Los iconos son
+  // archivos de public/images: la CSP del login no admite data: en img-src. El basePath va fijo en la URL.
+  input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]) {
+    height: 46px;
+    padding: 6px 34px 6px 2px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: right 4px center;
+    background-size: 20px;
+    border: 0;
+    border-bottom: 2px solid var(--line);
+    border-radius: 0;
+    box-shadow: none;
+    color: var(--ink);
+    font-size: 18px;
+    outline: none;
+
+    &:focus {
+      border-bottom-color: var(--ink-soft);
+    }
+  }
+  input[name="loginName"] {
+    background-image: url("/ui/v2/login/images/icon-user.svg");
+  }
+  input[type="password"] {
+    background-image: url("/ui/v2/login/images/icon-lock.svg");
+  }
+
+  // Botones: el principal (submit) y los de borde (Atrás, proveedores) son píldoras.
+  button[type="submit"] {
+    height: 46px;
+    padding: 0 30px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--btn);
+    color: var(--btn-ink);
+    font-size: 16px;
+    font-weight: 600;
+
+    &:hover:not(:disabled) {
+      background: var(--btn);
+      filter: brightness(1.12);
+    }
+    &:disabled {
+      background: var(--btn);
+      color: var(--btn-ink);
+      opacity: 0.45;
+    }
+  }
+  button[type="button"].border {
+    height: 46px;
+    padding: 0 22px;
+    border-radius: 999px;
+    border-color: var(--line);
+    background: transparent;
+    color: var(--ink);
+    font-size: 15px;
+  }
+  // Los botones que hacen de enlace ("Registrar nuevo usuario", "¿Olvidaste la contraseña?").
+  button[type="button"]:not(.border) {
+    color: var(--ink);
+    font-size: 14px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+html.dark .glass-panel {
+  input[name="loginName"] {
+    background-image: url("/ui/v2/login/images/icon-user-dark.svg");
+  }
+  input[type="password"] {
+    background-image: url("/ui/v2/login/images/icon-lock-dark.svg");
+  }
+}
+
+// Móvil: una columna, sin tarjeta de arte; el panel ocupa el ancho.
+@media (max-width: 767px) {
+  .glass-scene {
+    padding: 16px 0;
+  }
+  .glass-grid {
+    grid-template-columns: 1fr;
+    padding: 0 16px;
+  }
+  .glass-art {
+    display: none;
+  }
+  .glass-panel {
+    margin-left: 0;
+    min-height: 0;
+    padding: 32px 24px;
+    .glass-head h1 {
+      font-size: 34px;
+    }
+  }
+}
