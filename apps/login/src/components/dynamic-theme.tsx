@@ -83,10 +83,7 @@ export function DynamicTheme({
 
   return (
     <ThemeWrapper branding={branding}>
-      <AuthScene
-        head={hasHead ? childArray[0] : null}
-        body={hasHead ? childArray[1] : actualChildren}
-      />
+      <AuthScene head={hasHead ? childArray[0] : null} body={hasHead ? childArray[1] : actualChildren} />
     </ThemeWrapper>
   );
 }
