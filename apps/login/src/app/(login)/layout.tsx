@@ -12,7 +12,7 @@ import { getAllowedLanguages } from "@/lib/zitadel";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { Barlow } from "next/font/google";
+import { Barlow, Barlow_Condensed } from "next/font/google";
 import { headers } from "next/headers";
 import React, { Suspense } from "react";
 
@@ -20,6 +20,12 @@ import React, { Suspense } from "react";
 const barlow = Barlow({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin", "latin-ext"],
+});
+// Barlow Condensed para mandar (títulos), como en fe-pos. Llega a los estilos como var(--font-heading).
+const barlowCondensed = Barlow_Condensed({
+  weight: ["500", "600", "700"],
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-heading",
 });
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -44,7 +50,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   }
 
   return (
-    <html className={`${barlow.className}`} suppressHydrationWarning>
+    <html className={`${barlow.className} ${barlowCondensed.variable}`} suppressHydrationWarning>
       <head />
       <body>
         <ThemeProvider>
