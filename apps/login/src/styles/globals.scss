@@ -1,6 +1,6 @@
 // https://github.com/tailwindlabs/tailwindcss/discussions/16173
 @use "tailwindcss";
-@use "glass";
+@use "auth";
 @config "../../tailwind.config.mjs";
 
 @layer base {
